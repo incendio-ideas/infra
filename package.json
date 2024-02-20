@@ -5,6 +5,9 @@
   "devDependencies": {
     "@types/bun": "latest"
   },
+  "scripts": {
+    "synth": "cdk8s synth"
+  },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },

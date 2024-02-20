@@ -25,7 +25,7 @@ jobs:
         run: bun install
 
       - name: cdk8s synth
-        run: bunx cdk8s synth
+        run: bun run synth
 
       - name: Run Azure Login with OIDC
         uses: azure/login@v1
