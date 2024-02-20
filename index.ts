@@ -8,22 +8,22 @@ class IncendioChart extends Chart {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const label = { app: "auth" };
+    const authLabels = { app: "auth" };
 
     new KubeDeployment(this, "AuthDeployment", {
       spec: {
         replicas: 2,
         selector: {
-          matchLabels: label,
+          matchLabels: authLabels,
         },
         template: {
-          metadata: { labels: label },
+          metadata: { labels: authLabels },
           spec: {
             containers: [
               {
                 name: "auth",
                 image: "ghcr.io/incendio-ideas/auth:main",
-                ports: [{ containerPort: 80 }],
+                ports: [{ containerPort: 50051 }],
               },
             ],
             imagePullSecrets: [{ name: "ghcr-io-creds" }],
@@ -34,9 +34,40 @@ class IncendioChart extends Chart {
 
     new KubeService(this, "AuthService", {
       spec: {
+        ports: [{ port: 50051, targetPort: IntOrString.fromNumber(50051) }],
+        selector: authLabels,
+      },
+    });
+
+    const apiGatewayLabels = { app: "api-gateway" };
+
+    new KubeDeployment(this, "ApiGatewayDeployment", {
+      spec: {
+        replicas: 2,
+        selector: {
+          matchLabels: apiGatewayLabels,
+        },
+        template: {
+          metadata: { labels: apiGatewayLabels },
+          spec: {
+            containers: [
+              {
+                name: "api-gateway",
+                image: "ghcr.io/incendio-ideas/api-gateway:main",
+                ports: [{ containerPort: 8080 }],
+              },
+            ],
+            imagePullSecrets: [{ name: "ghcr-io-creds" }],
+          },
+        },
+      },
+    });
+
+    new KubeService(this, "ApiGatewayService", {
+      spec: {
         type: ServiceType.LOAD_BALANCER,
-        ports: [{ port: 80, targetPort: IntOrString.fromNumber(80) }],
-        selector: label,
+        ports: [{ port: 80, targetPort: IntOrString.fromNumber(8080) }],
+        selector: apiGatewayLabels,
       },
     });
   }
