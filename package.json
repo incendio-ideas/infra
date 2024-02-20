@@ -1,0 +1,16 @@
+{
+  "name": "infra",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "cdk8s": "^2.68.35",
+    "cdk8s-plus-27": "^2.7.77",
+    "constructs": "^10.3.0"
+  }
+}

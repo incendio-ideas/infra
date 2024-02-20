@@ -1,0 +1,4 @@
+app: bun index.ts
+language: typescript
+imports:
+  - k8s@1.27.0
