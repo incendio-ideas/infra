@@ -24,9 +24,6 @@ jobs:
       - name: Install bun
         run: bun install
 
-      - name: Install cdk8s
-        run: bun add cdk8s
-
       - name: cdk8s synth
         run: bunx cdk8s synth
 
@@ -51,4 +48,4 @@ jobs:
         id: install
 
       - name: Deploy to Kubernetes
-        run: kubectl apply -f k8s
+        run: kubectl apply -f dist/insendio-*.k8s.yaml
