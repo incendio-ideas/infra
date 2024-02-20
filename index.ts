@@ -4,21 +4,13 @@ import { App, Chart } from "cdk8s";
 import { KubeDeployment, KubeService, IntOrString } from "./imports/k8s";
 import { ServiceType } from "cdk8s-plus-27";
 
-class MyChart extends Chart {
+class IncendioChart extends Chart {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const label = { app: "hello-k8s" };
+    const label = { app: "auth" };
 
-    new KubeService(this, "service", {
-      spec: {
-        type: ServiceType.LOAD_BALANCER,
-        ports: [{ port: 80, targetPort: IntOrString.fromNumber(80) }],
-        selector: label,
-      },
-    });
-
-    new KubeDeployment(this, "deployment", {
+    new KubeDeployment(this, "AuthDeployment", {
       spec: {
         replicas: 2,
         selector: {
@@ -29,8 +21,8 @@ class MyChart extends Chart {
           spec: {
             containers: [
               {
-                name: "nginx",
-                image: "nginx:latest",
+                name: "auth",
+                image: "ghcr.io/incendio-ideas/auth:main",
                 ports: [{ containerPort: 80 }],
               },
             ],
@@ -38,9 +30,17 @@ class MyChart extends Chart {
         },
       },
     });
+
+    new KubeService(this, "AuthService", {
+      spec: {
+        type: ServiceType.LOAD_BALANCER,
+        ports: [{ port: 80, targetPort: IntOrString.fromNumber(80) }],
+        selector: label,
+      },
+    });
   }
 }
 
 const app = new App();
-new MyChart(app, "MyChart");
+new IncendioChart(app, "Incendio");
 app.synth();
