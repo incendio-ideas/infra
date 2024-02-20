@@ -26,6 +26,7 @@ class IncendioChart extends Chart {
                 ports: [{ containerPort: 80 }],
               },
             ],
+            imagePullSecrets: [{ name: "ghcr-io-creds" }],
           },
         },
       },

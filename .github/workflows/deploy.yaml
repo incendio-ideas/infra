@@ -21,7 +21,7 @@ jobs:
         with:
           bun-version: 1.0.28
 
-      - name: Install bun
+      - name: Install deps
         run: bun install
 
       - name: cdk8s synth
