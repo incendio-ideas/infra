@@ -2,11 +2,12 @@
   "name": "infra",
   "module": "index.ts",
   "type": "module",
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
   "scripts": {
     "synth": "cdk8s synth"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "cdk8s-cli": "^2.198.54"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
