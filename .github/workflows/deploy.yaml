@@ -32,8 +32,5 @@ jobs:
           base64-kube-config: ${{ secrets.KUBE_CONFIG }}
           kubectl-version: v1.27.7
 
-      - name: Log generated k8s files
-        run: ls -l dist
-
       - name: Deploy to Kubernetes
-        run: kubectl apply -f dist/insendio-*.k8s.yaml
+        run: kubectl apply -f dist/incendio-*.k8s.yaml
