@@ -100,8 +100,8 @@ class IncendioChart extends Chart {
             containers: [
               {
                 name: "web",
-                image: "ghcr.io/incendio-ideas/web:0.0.1",
-                ports: [{ containerPort: 80 }],
+                image: "ghcr.io/incendio-ideas/web:0.0.2",
+                ports: [{ containerPort: 8000 }],
               },
             ],
             imagePullSecrets: [{ name: "ghcr-io-creds" }],
@@ -116,7 +116,7 @@ class IncendioChart extends Chart {
       },
       spec: {
         type: ServiceType.LOAD_BALANCER,
-        ports: [{ port: 80, targetPort: IntOrString.fromNumber(80) }],
+        ports: [{ port: 80, targetPort: IntOrString.fromNumber(8000) }],
         selector: webLabels,
       },
     });
