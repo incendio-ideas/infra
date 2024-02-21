@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { App, Chart } from "cdk8s";
+import { App, Chart, YamlOutputType } from "cdk8s";
 
 import { KubeDeployment, KubeService, IntOrString } from "./imports/k8s";
 import { ServiceType } from "cdk8s-plus-27";
@@ -11,6 +11,9 @@ class IncendioChart extends Chart {
     const authLabels = { app: "auth" };
 
     new KubeDeployment(this, "AuthDeployment", {
+      metadata: {
+        name: "auth-deployment",
+      },
       spec: {
         replicas: 2,
         selector: {
@@ -33,6 +36,9 @@ class IncendioChart extends Chart {
     });
 
     new KubeService(this, "AuthService", {
+      metadata: {
+        name: "auth-service",
+      },
       spec: {
         ports: [{ port: 50051, targetPort: IntOrString.fromNumber(50051) }],
         selector: authLabels,
@@ -42,6 +48,9 @@ class IncendioChart extends Chart {
     const apiGatewayLabels = { app: "api-gateway" };
 
     new KubeDeployment(this, "ApiGatewayDeployment", {
+      metadata: {
+        name: "api-gateway-deployment",
+      },
       spec: {
         replicas: 2,
         selector: {
@@ -64,6 +73,9 @@ class IncendioChart extends Chart {
     });
 
     new KubeService(this, "ApiGatewayService", {
+      metadata: {
+        name: "api-gateway-service",
+      },
       spec: {
         type: ServiceType.LOAD_BALANCER,
         ports: [{ port: 80, targetPort: IntOrString.fromNumber(8080) }],
@@ -73,6 +85,9 @@ class IncendioChart extends Chart {
   }
 }
 
-const app = new App();
+const app = new App({
+  yamlOutputType: YamlOutputType.FILE_PER_APP,
+});
+
 new IncendioChart(app, "Incendio");
 app.synth();
