@@ -33,4 +33,4 @@ jobs:
           kubectl-version: v1.27.7
 
       - name: Deploy to Kubernetes
-        run: kubectl apply -f dist/incendio-*.k8s.yaml
+        run: kubectl apply -f dist/app.k8s.yaml
