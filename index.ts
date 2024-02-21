@@ -82,6 +82,44 @@ class IncendioChart extends Chart {
         selector: apiGatewayLabels,
       },
     });
+
+    const webLabels = { app: "web" };
+
+    new KubeDeployment(this, "WebDeployment", {
+      metadata: {
+        name: "web-deployment",
+      },
+      spec: {
+        replicas: 2,
+        selector: {
+          matchLabels: webLabels,
+        },
+        template: {
+          metadata: { labels: webLabels },
+          spec: {
+            containers: [
+              {
+                name: "web",
+                image: "ghcr.io/incendio-ideas/web:0.0.1",
+                ports: [{ containerPort: 80 }],
+              },
+            ],
+            imagePullSecrets: [{ name: "ghcr-io-creds" }],
+          },
+        },
+      },
+    });
+
+    new KubeService(this, "WebService", {
+      metadata: {
+        name: "web-service",
+      },
+      spec: {
+        type: ServiceType.LOAD_BALANCER,
+        ports: [{ port: 80, targetPort: IntOrString.fromNumber(80) }],
+        selector: webLabels,
+      },
+    });
   }
 }
 
