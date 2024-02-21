@@ -63,7 +63,7 @@ class IncendioChart extends Chart {
               {
                 name: "api-gateway",
                 image: "ghcr.io/incendio-ideas/api-gateway:main",
-                ports: [{ containerPort: 8080 }],
+                ports: [{ containerPort: 8000 }],
               },
             ],
             imagePullSecrets: [{ name: "ghcr-io-creds" }],
@@ -78,7 +78,7 @@ class IncendioChart extends Chart {
       },
       spec: {
         type: ServiceType.LOAD_BALANCER,
-        ports: [{ port: 80, targetPort: IntOrString.fromNumber(8080) }],
+        ports: [{ port: 80, targetPort: IntOrString.fromNumber(8000) }],
         selector: apiGatewayLabels,
       },
     });
