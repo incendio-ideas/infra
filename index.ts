@@ -102,7 +102,7 @@ class IncendioChart extends Chart {
                 name: "web",
                 image: "ghcr.io/incendio-ideas/web:0.0.7",
                 ports: [{ containerPort: 8000 }],
-                command: ["envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf", "&&", "nginx", "-g", "daemon off;"]
+                command: ["sh", "-c", "envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"]
               },
             ],
             imagePullSecrets: [{ name: "ghcr-io-creds" }],
