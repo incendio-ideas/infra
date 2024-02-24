@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { App, Chart, YamlOutputType } from "cdk8s";
+import { App, Chart, Helm, YamlOutputType } from "cdk8s";
 
 import { KubeDeployment, KubeService, IntOrString, KubeNamespace } from "./imports/k8s";
 import { ServiceType } from "cdk8s-plus-27";
@@ -130,6 +130,24 @@ class IncendioChart extends Chart {
         type: ServiceType.LOAD_BALANCER,
         ports: [{ port: 80, targetPort: IntOrString.fromNumber(8000) }],
         selector: webLabels,
+      },
+    });
+
+    new Helm(this, "AuthDatabase", {
+      chart: "bitnami/postgresql",
+      namespace: "incendio",
+      values: {
+        global: {
+          postgresql: {
+            postgresqlDatabase: "auth_db",
+            postgresqlUsername: "auth_user",
+            postgresqlPassword: "auth_password",
+          },
+        },
+        persistence: {
+          enabled: true,
+          size: "8Gi",
+        },
       },
     });
   }
