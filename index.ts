@@ -12,7 +12,8 @@ class IncendioChart extends Chart {
 
     new KubeDeployment(this, "AuthDeployment", {
       metadata: {
-        name: "auth-deployment",
+        name: "auth",
+        namespace: "incendio",
       },
       spec: {
         replicas: 2,
@@ -37,7 +38,8 @@ class IncendioChart extends Chart {
 
     new KubeService(this, "AuthService", {
       metadata: {
-        name: "auth-service",
+        name: "auth",
+        namespace: "incendio",
       },
       spec: {
         ports: [{ port: 50051, targetPort: IntOrString.fromNumber(50051) }],
@@ -49,7 +51,8 @@ class IncendioChart extends Chart {
 
     new KubeDeployment(this, "ApiGatewayDeployment", {
       metadata: {
-        name: "api-gateway-deployment",
+        name: "api-gateway",
+        namespace: "incendio",
       },
       spec: {
         replicas: 2,
@@ -62,7 +65,7 @@ class IncendioChart extends Chart {
             containers: [
               {
                 name: "api-gateway",
-                image: "ghcr.io/incendio-ideas/api-gateway:0.0.1",
+                image: "ghcr.io/incendio-ideas/api-gateway:0.0.2",
                 ports: [{ containerPort: 8000 }],
               },
             ],
@@ -74,7 +77,8 @@ class IncendioChart extends Chart {
 
     new KubeService(this, "ApiGatewayService", {
       metadata: {
-        name: "api-gateway-service",
+        name: "api-gateway",
+        namespace: "incendio",
       },
       spec: {
         type: ServiceType.LOAD_BALANCER,
@@ -87,7 +91,8 @@ class IncendioChart extends Chart {
 
     new KubeDeployment(this, "WebDeployment", {
       metadata: {
-        name: "web-deployment",
+        name: "web",
+        namespace: "incendio",
       },
       spec: {
         replicas: 2,
@@ -100,7 +105,7 @@ class IncendioChart extends Chart {
             containers: [
               {
                 name: "web",
-                image: "ghcr.io/incendio-ideas/web:0.0.8",
+                image: "ghcr.io/incendio-ideas/web:0.0.9",
                 ports: [{ containerPort: 8000 }],
               },
             ],
@@ -112,7 +117,8 @@ class IncendioChart extends Chart {
 
     new KubeService(this, "WebService", {
       metadata: {
-        name: "web-service",
+        name: "web",
+        namespace: "incendio",
       },
       spec: {
         type: ServiceType.LOAD_BALANCER,
