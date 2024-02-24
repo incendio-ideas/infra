@@ -111,7 +111,7 @@ class IncendioChart extends Chart {
             containers: [
               {
                 name: "web",
-                image: "ghcr.io/incendio-ideas/web:0.0.11",
+                image: "ghcr.io/incendio-ideas/web:0.0.12",
                 ports: [{ containerPort: 8000 }],
               },
             ],
