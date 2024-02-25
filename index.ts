@@ -133,15 +133,15 @@ class IncendioChart extends Chart {
       },
     });
 
-    new Helm(this, "AuthDatabase", {
+    new Helm(this, "Database", {
       chart: "bitnami/postgresql",
       namespace: "incendio",
       values: {
         global: {
           postgresql: {
-            postgresqlDatabase: "auth_db",
-            postgresqlUsername: "auth_user",
-            postgresqlPassword: "auth_password",
+            postgresqlDatabase: "db",
+            postgresqlUsername: "user",
+            postgresqlPassword: "password",
           },
         },
         persistence: {
