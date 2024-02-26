@@ -32,7 +32,7 @@ class IncendioChart extends Chart {
             containers: [
               {
                 name: "auth",
-                image: "ghcr.io/incendio-ideas/auth:0.0.1",
+                image: "ghcr.io/incendio-ideas/auth:0.0.2",
                 ports: [{ containerPort: 50051 }],
               },
             ],
@@ -71,7 +71,7 @@ class IncendioChart extends Chart {
             containers: [
               {
                 name: "api-gateway",
-                image: "ghcr.io/incendio-ideas/api-gateway:0.0.2",
+                image: "ghcr.io/incendio-ideas/api-gateway:0.0.3",
                 ports: [{ containerPort: 8000 }],
               },
             ],
