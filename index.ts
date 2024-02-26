@@ -137,9 +137,9 @@ class IncendioChart extends Chart {
       chart: "bitnami/postgresql",
       namespace: "incendio",
       values: {
+        fullnameOverride: "db",
         global: {
           postgresql: {
-            postgresqlDatabase: "db",
             postgresqlUsername: "user",
             postgresqlPassword: "password",
           },
@@ -148,6 +148,15 @@ class IncendioChart extends Chart {
           enabled: true,
           size: "8Gi",
         },
+        initdbScripts: {
+          'create-multiple-dbs.sh': `
+            #!/bin/bash
+            set -e
+            psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+              CREATE DATABASE auth;
+            EOSQL
+          `
+        }
       },
     });
   }
